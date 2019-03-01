@@ -4,6 +4,7 @@ import jxl.write.WriteException;
 import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
@@ -29,20 +30,20 @@ public class MaxTestChromeMobile {
     private static WebDriverWait wait;
     private static String browser_type = "MOBILE";
     //пути для файлов первого сценария
-    String source_path1="c:/aData/1_scn/test_1scn.xls";
-    String source_cpy1="c:/aData/1_scn/test_1scn_"+browser_type;
+    String source_path1="c:/aData/1_scn/test_1scn_mob.xls";
+    String source_cpy1="c:/aData/1_scn/test_1scn_mob_"+browser_type;
     String screen_path1="c:/aScreens/1_scn/";
 
-    String source_path2="c:/aData/2_scn/test_2scn.xls";
-    String source_cpy2="c:/aData/2_scn/test_2scn_"+browser_type;
+    String source_path2="c:/aData/2_scn/test_2scn_mob.xls";
+    String source_cpy2="c:/aData/2_scn/test_2scn_mob_"+browser_type;
     String screen_path2="c:/aScreens/2_scn/";
 
-    String source_path3="c:/aData/3_scn/test_3scn.xls";
-    String source_cpy3="c:/aData/3_scn/test_3scn_"+browser_type;
+    String source_path3="c:/aData/3_scn/test_3scn_mob.xls";
+    String source_cpy3="c:/aData/3_scn/test_3scn_mob_"+browser_type;
     String screen_path3="c:/aScreens/3_scn/";
 
-    String source_path4="c:/aData/4_scn/test_4scn.xls";
-    String source_cpy4="c:/aData/4_scn/test_4scn_"+browser_type;
+    String source_path4="c:/aData/4_scn/test_4scn_mob.xls";
+    String source_cpy4="c:/aData/4_scn/test_4scn_mob_"+browser_type;
     String screen_path4="c:/aScreens/4_scn/";
 
     //блок глобальных переменных-------------------------------------------блок глобальных переменных
@@ -123,18 +124,33 @@ public class MaxTestChromeMobile {
                 wait = new WebDriverWait(driver,15);
 
         driver.get("https://www.uralairlines.ru/?mmcore.un=qa");
-        Thread.sleep(3000);
+        Thread.sleep(5000);
         driver.switchTo().defaultContent();
         WebElement Qatool=wait.until(presenceOfElementLocated(By.xpath("//*[@id='dptIframe']")));
         driver.switchTo().frame(Qatool); //переключились во фрейм
-        //Thread.sleep(1000);
 
-        WebElement settings = wait.until(presenceOfElementLocated(By.id("maxypt-tab-bttn-settings")));
-        settings.click();
-        Qatool=driver.findElement(By.xpath("//*[contains(@data-label, 'Top - Right')]"));
-        Qatool.click();
-        Qatool=driver.findElement(By.xpath("//*[contains(@class, 'maxypt-save-settings maxypt-tooltip-right')]"));
-        Qatool.click();
+        WebElement experience = wait.until(presenceOfElementLocated(By.xpath("//*[contains(@class, 'maxypt-icon icon-create')]")));
+        experience.click();
+
+        WebElement scen = wait.until(presenceOfElementLocated(By.xpath("//*[contains(text(), 's1_m')]")));
+        scen.click();
+
+        experience = wait.until(presenceOfElementLocated(By.xpath("//*[contains(@class, 'maxypt-icon icon-check')]")));
+
+        experience.click();
+
+        Thread.sleep(5000);
+        driver.switchTo().defaultContent();
+        Qatool=wait.until(presenceOfElementLocated(By.xpath("//*[@id='dptIframe']")));
+        driver.switchTo().frame(Qatool); //переключились во фрейм
+
+        WebElement hide = wait.until(presenceOfElementLocated(By.xpath("//*[contains(@class, 'maxypt-icon icon-arrow-back')]")));
+        hide.click();
+
+        driver.switchTo().defaultContent();
+
+        WebElement button = driver.findElement(By.xpath("//*[contains(@class, 'btn js_cookie_attention_button')]"));
+        button.click();
 
     }
 
@@ -247,6 +263,7 @@ public class MaxTestChromeMobile {
         //driver.close();
     }//тест первого сценария
 
+    @Ignore
     @Test //Тест сценария 2
     public void chrome_scn_2() throws IOException, InterruptedException, WriteException {
 
@@ -357,7 +374,7 @@ public class MaxTestChromeMobile {
 
     }
 
-
+    @Ignore
     @Test //Тест сценария 3
     public void chrome_scn_3() throws IOException, InterruptedException, WriteException {
 
@@ -442,6 +459,7 @@ public class MaxTestChromeMobile {
         //driver.close();
     }
 
+    @Ignore
     @Test //Тест сценария 4 -------------------------------------------------------------------------отдельно проверить https://www.uralairlines.ru/?mmid=1-3LV6AWB&logs=on&utm_content=MOW-IKT!!!!!!
     public void chrome_scn_4() throws IOException, InterruptedException, WriteException {
 

@@ -120,11 +120,11 @@ public class MaxTestChrome {
                 System.setProperty("webdriver.chrome.driver", "C:\\Chromedriver\\chromedriver.exe");
                 ChromeOptions option = new ChromeOptions();
                 option.addArguments("start-maximized");
-                //option.addArguments("incognito");
+                option.addArguments("incognito");
 
                 driver = new ChromeDriver(option);
                 driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
-                wait = new WebDriverWait(driver,15);
+                wait = new WebDriverWait(driver,10);
 
                 //Подготовка к работе - закрытие приглашения подписаться на рассылку и предупреждения о cookies.
                 String url_ua="http://uralairlines.ru";
@@ -199,18 +199,17 @@ public class MaxTestChrome {
                                 if(!isElementPresent(By.xpath(isBanner))){ //если нужного баннера нет - сменить сессию и проверить заново
                                     String parentWin = driver.getWindowHandle();
                                     Set<String> oldWins = driver.getWindowHandles();
-                                    //((JavascriptExecutor)driver).executeScript("window.open();");
-                                    //driver.findElement(By.xpath("//*[contains(@class,'mx-banner-btn')]")).click();
-                                    driver.get("https://checkin.uralairlines.ru/");
+                                    ((JavascriptExecutor)driver).executeScript("window.open();");
+
+                                    ///////////////////////////////////////////////////////////////////////driver.get("https://checkin.uralairlines.ru/");
+
+                                    ////////////////////////////////////////////////////////////////////Thread.sleep(15000);
+                                    String newWin = wait.until(thereIsWindowOtherThan(oldWins)); // ожидаем, когда появится хендл нового окна (или окон)
+                                    driver.switchTo().window(parentWin);
+                                    driver.close();
+                                    driver.switchTo().window(newWin);
                                     Thread.sleep(15000);
-                                    //driver.get(memberUrl);
 
-                                    //String newWin = wait.until(thereIsWindowOtherThan(oldWins)); // ожидаем, когда появится хендл нового окна (или окон)
-                                    //driver.switchTo().window(parentWin);
-
-                                    //driver.close();
-
-                                    //driver.switchTo().window(newWin);
 
                                     driver.get(memberUrl);
                                             if(!isElementPresent(By.xpath(isBanner))){
@@ -558,7 +557,7 @@ public class MaxTestChrome {
     }
 
     @AfterClass
-    public static void tearDown() {
+    public void tearDown() {
 
         driver.quit();
     }
